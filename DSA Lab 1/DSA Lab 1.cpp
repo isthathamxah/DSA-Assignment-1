@@ -69,7 +69,8 @@ int main()
                 validWord += ch;
         }
 
-        if (!validWord.empty()) {
+        if (!validWord.empty()) 
+        {
             totalWords++;
             if (isPalindrome(validWord)) {
                 palindromeCount++;
