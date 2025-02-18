@@ -1,14 +1,86 @@
 #include <fstream>
-#include <stack>
 #include <iostream>
 
 using namespace std;
+
+template <typename T>
+class FixedSizeStack
+{
+private:
+    T* arr;
+    int capacity;
+    int topIndex;
+
+public:
+    FixedSizeStack(int cap = 100);
+    ~FixedSizeStack();
+    void push(const T& value);
+    void pop();
+    T top() const;
+    bool isEmpty() const;
+};
+
+// Constructor
+template <typename T>
+FixedSizeStack<T>::FixedSizeStack(int cap) : capacity(cap), topIndex(-1)
+{
+    arr = new T[capacity];
+}
+
+// Destructor
+template <typename T>
+FixedSizeStack<T>::~FixedSizeStack()
+{
+    delete[] arr;
+}
+
+// Push method
+template <typename T>
+void FixedSizeStack<T>::push(const T& value)
+{
+    if (topIndex == capacity - 1)
+    {
+        cout << "Stack Overflow" << endl;
+        exit(1);
+    }
+    arr[++topIndex] = value;
+}
+
+// Pop method
+template <typename T>
+void FixedSizeStack<T>::pop()
+{
+    if (isEmpty())
+    {
+        cout << "Stack Underflow" << endl;
+        exit(1);
+    }
+    topIndex--;
+}
+
+// Top method
+template <typename T>
+T FixedSizeStack<T>::top() const
+{
+    if (isEmpty())
+    {
+        cout << "Stack is empty. No top element." << endl;
+        exit(1);
+    }
+    return arr[topIndex];
+}
+
+// Check if empty
+template <typename T>
+bool FixedSizeStack<T>::isEmpty() const
+{
+    return topIndex == -1;
+}
 
 bool isLetter(char ch)
 {
     return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
 }
-
 
 string toLowercase(string word)
 {
@@ -26,7 +98,7 @@ bool isPalindrome(string word)
 {
     if (word.empty()) return false;
 
-    stack<char> charStack;
+    FixedSizeStack<char> charStack(word.length());
 
     for (char ch : word)
     {
@@ -85,3 +157,4 @@ int main()
 
     return 0;
 }
+
